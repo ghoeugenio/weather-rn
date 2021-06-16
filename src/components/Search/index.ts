@@ -40,23 +40,27 @@ export const search = async (props: Search) => {
 	return {resultSearch, cityProps};
 };
 
-const findByName = async (city: string) => {
+const findByName = async (citySearch: string) => {
 	const response = await fetch(
-		`https://api.opencagedata.com/geocode/v1/json?q=${city}&key=b904e147307640f58306cf9b69e624bf`
+		`https://api.opencagedata.com/geocode/v1/json?q=${citySearch}&key=b904e147307640f58306cf9b69e624bf`
 	);
 	const result = await response.json();
 	const {
 		results: [
 			{
-				components: {state_code, country},
+				components: {state_code, country, town, city},
 			},
 		],
 	} = result;
 	const cityByName = {
-		city: city,
-		state: country,
-		country: state_code,
+		city: !!city ? city : town,
+		state: state_code,
+		country: country,
 	};
+
+	if (!country || !state_code) {
+		return;
+	}
 
 	return cityByName;
 };
@@ -69,15 +73,19 @@ const findByLatLng = async (latitude: number, longitude: number) => {
 	const {
 		results: [
 			{
-				components: {state_code, country, town},
+				components: {state_code, country, town, city},
 			},
 		],
 	} = result;
 	const cityByLatLng = {
-		city: town,
+		city: !!town ? town : city,
 		state: state_code,
 		country: country,
 	};
+
+	if (!country || !state_code) {
+		return;
+	}
 
 	return cityByLatLng;
 };

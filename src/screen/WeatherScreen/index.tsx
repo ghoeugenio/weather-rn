@@ -55,11 +55,11 @@ const WeatherScreen: React.FunctionComponent = ({route, navigation}: any) => {
 					unitsSystem: unitsSystem,
 				});
 
-				if (!result) {
+				if (!result.resultSearch) {
 					Alert.alert('Erro ao localizar!');
 					setError(true);
+					return;
 				}
-
 				setCurrentWeather(result.resultSearch);
 				dispatch(
 					recentSearchActions.setRecentSearch(result.cityProps)
@@ -76,11 +76,11 @@ const WeatherScreen: React.FunctionComponent = ({route, navigation}: any) => {
 					unitsSystem: unitsSystem,
 				});
 
-				if (!result) {
+				if (!result.resultSearch) {
 					Alert.alert('Cidade não localizada!');
 					setError(true);
+					return;
 				}
-
 				setCurrentWeather(result.resultSearch);
 				dispatch(
 					recentSearchActions.setRecentSearch(result.cityProps)

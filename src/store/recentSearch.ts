@@ -18,7 +18,9 @@ const recentSearchSlice = createSlice({
 	reducers: {
 		setRecentSearch(state: IRecentSearch, action) {
 			const existCity = state.recent.find(
-				(item) => item.city === action.payload.city
+				(item) =>
+					item?.city?.toLowerCase() ===
+					action.payload?.city.toLowerCase()
 			);
 			if (existCity) {
 				return;
